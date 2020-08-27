@@ -16,20 +16,17 @@ for k in urs:
     if url0 in k and k!=url0:
         urls.append(k)
         scraperwiki.sqlite.save(unique_keys=["link"], data={"link":k})
-nlist=set()
-nlist.add(url0)
 while(len(urls)>0):
-    if urls[0] not in nlist:
-        print("scraping: "+urls[0])
-        nlist.add(urls[0])
-        html1= scraperwiki.scrape(urls[0])
-        root1 = lxml.html.fromstring(html1)
-        newrls=[e.get("href") for e in root1.cssselect("a")]
-        for u in newrls:
-            if url0 in u and u!=url0:
-                urls.append(u)
-                scraperwiki.sqlite.save(unique_keys=["link"], data={"link": u})
-        urls.pop(0)
+    print("scraping: "+urls[0])
+    html1= scraperwiki.scrape(urls[0])
+    root1 = lxml.html.fromstring(html1)
+    newrls=[e.get("href") for e in root1.cssselect("a")]
+    for u in newrls:
+        if url0 in u and u!=url0:
+            urls.append(u)
+            scraperwiki.sqlite.save(unique_keys=["link"], data={"link": u})
+    del(urls[0])
+    pass
         
  
         
