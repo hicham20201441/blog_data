@@ -12,7 +12,7 @@ html = scraperwiki.scrape(url0)
 root = lxml.html.fromstring(html)
 urs=[e.get("href") for e in root.cssselect("a")]
 urls=[]
-n=set()
+n=[]
 for k in urs:
     if url0 in k and k!=url0:
         urls.append(k)
@@ -20,7 +20,7 @@ for k in urs:
 while(len(urls)>0):
     print("scraping: "+urls[0])
     if urls[0] not in n:
-        n.add(urls[0])
+        n.append(urls[0])
         html1= scraperwiki.scrape(urls[0])
         root1 = lxml.html.fromstring(html1)
         newrls=[e.get("href") for e in root1.cssselect("a")]
@@ -32,6 +32,7 @@ while(len(urls)>0):
                     scraperwiki.sqlite.save(unique_keys=["link"], data={"link": u})
         except:
             pass
+    else:pass
     pass
         
  
