@@ -4,20 +4,20 @@
 import scraperwiki
 import lxml.html
 #
-url="https://dollarsprout.com"
+url0="https://dollarsprout.com"
 # # Read in a page
-html = scraperwiki.scrape(url)
+html = scraperwiki.scrape(url0)
 #
 # # Find something on the page using css selectors
 root = lxml.html.fromstring(html)
 urlss=[e.get("href") for e in root.cssselect("a")]
 urls=[]
 for k in urlss:
-    if url in k and url!=k:
+    if url0 in k and k!=url0:
         urls.append(k)
         scraperwiki.sqlite.save(unique_keys=["link"], data={"link":k})
 nlist=set()
-nlist.add(url)
+nlist.add(url0)
 while(len(urls)>0):
     if urls[0] not in nlist:
         print("scraping: "+urls[0])
@@ -26,7 +26,7 @@ while(len(urls)>0):
         root1 = lxml.html.fromstring(html1)
         newrls=[e.get("href") for e in root1.cssselect("a")]
         for u in newrls:
-            if url in u and url!=u:
+            if url0 in u and u!=url0:
                 urls.append(u)
                 scraperwiki.sqlite.save(unique_keys=["link"], data={"link": u})
         urls.pop(0)
