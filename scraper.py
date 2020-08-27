@@ -12,7 +12,7 @@ html = scraperwiki.scrape(url0)
 root = lxml.html.fromstring(html)
 urs=[e.get("href") for e in root.cssselect("a")]
 urls=[]
-n=[]
+n=[url0]
 for k in urs:
     if url0 in k and k!=url0:
         urls.append(k)
@@ -24,7 +24,6 @@ while(len(urls)>0):
         html1= scraperwiki.scrape(urls[0])
         root1 = lxml.html.fromstring(html1)
         newrls=[e.get("href") for e in root1.cssselect("a")]
-        del(urls[0])
         try:
             for u in newrls:
                 if url0 in u and u!=url0:
@@ -33,6 +32,7 @@ while(len(urls)>0):
         except:
             pass
     else:pass
+    del(urls[0])
     pass
         
  
