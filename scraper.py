@@ -11,10 +11,11 @@ html = scraperwiki.scrape(url0)
 # # Find something on the page using css selectors
 root = lxml.html.fromstring(html)
 urs=[e.get("href") for e in root.cssselect("a")]
-urls=[]
+urls=set()
+
 for k in urs:
     if url0 in k and k!=url0:
-        urls.append(k)
+        urls.add(k)
         scraperwiki.sqlite.save(unique_keys=["link"], data={"link":k})
 while(len(urls)>0):
     print("scraping: "+urls[0])
@@ -25,7 +26,7 @@ while(len(urls)>0):
     try:
         for u in newrls:
             if url0 in u and u!=url0:
-                urls.append(u)
+                urls.add(u)
                 scraperwiki.sqlite.save(unique_keys=["link"], data={"link": u})
     except:
         pass
